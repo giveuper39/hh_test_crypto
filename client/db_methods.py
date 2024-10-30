@@ -8,6 +8,7 @@ def init_db(db: SqliteDatabase) -> None:
     :param db: SqliteDatabase instance
     :return:
     """
+    db.bind([Data], bind_refs=False, bind_backrefs=False)
     db.connect()
     db.create_tables([Data])
     db.close()

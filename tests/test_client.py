@@ -9,6 +9,7 @@ from client.db import Data
 from client.db_methods import insert_price
 from client.main import gather_price
 
+
 db = SqliteDatabase("test_db.db")
 
 
