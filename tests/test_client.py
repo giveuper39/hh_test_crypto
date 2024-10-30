@@ -3,28 +3,12 @@ from datetime import datetime
 import aiohttp
 import pytest
 from aioresponses import aioresponses
-from peewee import SqliteDatabase
+
 
 from client.db import Data
 from client.db_methods import insert_price
 from client.main import gather_price
-
-
-db = SqliteDatabase("test_db.db")
-
-
-@pytest.fixture(scope="function", autouse=True)
-def setup_db():
-    if db.is_closed():
-        db.connect()
-
-    db.create_tables([Data])
-
-    yield
-
-    db.drop_tables([Data])
-    db.close()
-
+from tests.conftest import db
 
 @pytest.fixture
 def mock_price_response():
