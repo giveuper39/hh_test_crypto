@@ -5,7 +5,7 @@ from datetime import datetime, timezone
 
 from fastapi import FastAPI, HTTPException, Query
 
-from client.db import Data, db
+from client.db import Data, main_db
 
 app = FastAPI()
 
@@ -26,7 +26,7 @@ def get_all_prices(ticker: str = Query(..., description="Value ticker (e.g. 'btc
     :param ticker: Cryptocurrency ticker (e.g. 'btc' or 'eth')
     :return: List of dictionaries with 'ticker', 'price' and 'timestamp' keys
     """
-    with db.atomic():
+    with main_db.atomic():
         prices: list[Data] = Data.select().where(Data.ticker == ticker)
         if not prices:
             raise HTTPException(status_code=404, detail="No data found by this ticker")
@@ -40,7 +40,7 @@ def get_latest_price(ticker: str = Query(..., description="Value ticker (e.g. 'b
     :param ticker: Cryptocurrency ticker (e.g. 'btc' or 'eth')
     :return: Dictionary with 'ticker', 'price' and 'timestamp' keys
     """
-    with db.atomic():
+    with main_db.atomic():
         price: list[Data] = Data.select().where(Data.ticker == ticker).order_by(Data.timestamp.desc()).limit(1)
         if not price:
             raise HTTPException(status_code=404, detail="No data found by this ticker")
@@ -71,7 +71,7 @@ def get_price_by_date(
         )
     except ValueError:
         raise HTTPException(status_code=400, detail="Invalid start and/or end date format")
-    with db.atomic():
+    with main_db.atomic():
         prices: list[Data] = (
             Data.select()
             .where((Data.ticker == ticker) & (Data.timestamp >= start_timestamp) & (Data.timestamp <= end_timestamp))

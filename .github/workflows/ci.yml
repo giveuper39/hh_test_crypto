@@ -35,9 +35,4 @@ jobs:
         run: make lint
 
       - name: Run tests
-        env:
-          DB_NAME: test.db
         run: make test
-
-      - name: Remove test database
-        run: rm -f test.db

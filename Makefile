@@ -10,3 +10,4 @@ lint:
 
 test:
 	poetry run pytest --cov .
+	rm -f test_db.db
