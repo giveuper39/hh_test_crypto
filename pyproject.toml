@@ -16,6 +16,8 @@ pytest = "^8.3.3"
 pytest-coverage = "^0.0"
 uvicorn = "^0.32.0"
 python-dotenv = "^1.0.1"
+aioresponses = "^0.7.6"
+pytest-asyncio = "^0.24.0"
 
 [tool.black]
 line-length = 120
@@ -23,14 +25,16 @@ line-length = 120
 
 [tool.ruff.lint]
 select = ["ALL"]
-ignore = ["D100", "D101", "D104", "D106", "B904"]
+ignore = ["D100", "D101", "D104", "D106", "B904", "TRY401"]
+
 
 [tool.ruff]
 line-length = 120
+exclude = ["tests"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-addopts = "--cov"
+pythonpath = "client"
 
 [build-system]
 requires = ["poetry-core"]
