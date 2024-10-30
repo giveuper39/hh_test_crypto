@@ -1,6 +1,12 @@
+from os import getenv
+
+from dotenv import load_dotenv
 from peewee import CharField, FloatField, IntegerField, Model, SqliteDatabase
 
-db = SqliteDatabase("database.db")
+load_dotenv()
+DB_NAME = getenv("DB_NAME")
+
+db = SqliteDatabase(DB_NAME)
 
 
 class BaseModel(Model):
