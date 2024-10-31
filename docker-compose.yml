@@ -1,0 +1,30 @@
+services:
+  client:
+    build:
+      context: .
+      dockerfile: ./client/Dockerfile
+    command: make run_client
+    volumes:
+      - .:/app
+    environment:
+      - DB_NAME=database.db
+
+  api:
+    build:
+      context: .
+      dockerfile: ./api/Dockerfile
+    command: make run_api
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    environment:
+      - DB_NAME=database.db  # Use the same file if both client and API need access
+
+  test:
+    build:
+      context: .
+      dockerfile: ./client/Dockerfile
+    command: make test
+    volumes:
+      - .:/app
